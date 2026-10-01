@@ -17,10 +17,19 @@ export class RegisterPageComponent {
   readonly form = new FormGroup({
     name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
-    password: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    password: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(8)],
+    }),
   });
 
   submit(): void {
+    this.error.set('');
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
     const values = this.form.getRawValue();
     this.auth.register(values.name, values.email, values.password).subscribe({
       next: () => {
@@ -28,7 +37,7 @@ export class RegisterPageComponent {
         void this.router.navigateByUrl('/profile');
       },
       error: (error: { error?: { message?: string } }) => {
-        console.error('[RegisterPage] Échec de l’inscription', error);
+        console.error('[RegisterPage] Échec de l’inscription', error.error?.message ?? 'Erreur d’inscription');
         this.error.set(error.error?.message ?? 'Erreur d’inscription');
       },
     });

@@ -25,6 +25,12 @@ export class LoginPageComponent {
   });
 
   submit(): void {
+    this.error.set('');
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
     const values = this.form.getRawValue();
     this.auth.login(values.email, values.password).subscribe({
       next: () => {
@@ -32,7 +38,7 @@ export class LoginPageComponent {
         void this.router.navigateByUrl('/tracks');
       },
       error: (error: { error?: { message?: string } }) => {
-        console.error('[LoginPage] Échec de connexion', error);
+        console.error('[LoginPage] Échec de connexion', error.error?.message ?? 'Erreur de connexion');
         this.error.set(error.error?.message ?? 'Erreur de connexion');
       },
     });
