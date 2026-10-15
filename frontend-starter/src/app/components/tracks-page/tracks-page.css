@@ -1,1 +1,30 @@
 :host { display: block; }
+
+.library { min-width: 0; }
+.track-list { display: grid; gap: 0.75rem; }
+.track-card {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 1rem;
+	min-width: 0;
+	padding: 1rem;
+	border: 1px solid #d8e5e0;
+	border-radius: 8px;
+	background: white;
+}
+.track-card.is-playing { border-color: #1d755e; }
+.track-actions { display: flex; align-items: center; gap: 0.5rem; }
+.track-details { min-width: 0; }
+.track-details h3 { margin: 0 0 0.35rem; overflow-wrap: anywhere; }
+.track-details small { display: block; color: #61756f; overflow-wrap: anywhere; }
+.playing-label { display: inline-block; margin-top: 0.5rem; color: #1d755e; font-size: 0.875rem; }
+.now-playing { overflow-wrap: anywhere; }
+.success { color: #176b45; }
+.upload-progress progress { display: block; width: 100%; }
+.upload-progress p { margin: 0.35rem 0 0; }
+
+@media (max-width: 480px) {
+	.track-card { gap: 0.65rem; padding: 0.8rem; }
+	.track-actions { flex-wrap: wrap; justify-content: flex-end; }
+}
